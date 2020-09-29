@@ -1,5 +1,6 @@
 package errorhandling
 
+
 sealed trait Option[+A] {
   def map[B](f: A => B): Option[B] = this match {
     case Some(a) => Some(f(a))
@@ -14,10 +15,6 @@ sealed trait Option[+A] {
   def flatMap[B](f: A => Option[B]): Option[B] = this match {
     case Some(a) => f(a)
     case None => None
-  }
-
-  def flatMap2[B](f: A => Option[B]): Option[B] = {
-    map(f) getOrElse() errorhandling.None
   }
 
 
@@ -59,15 +56,17 @@ object Option {
     }
   }
 
-  def mean(xs: Seq[Double]): Double =
-    if (xs.isEmpty)
-      throw new ArithmeticException("mean of empty list!")
-    else xs.sum / xs.length
-
   def mean(xs: Seq[Double]): Option[Double] =
     if (xs.isEmpty) None
     else Some(xs.sum / xs.length)
 
-  def variance(xs: Seq[Double]): Option[Double] =???
+  /**
+   * 正直良くわからん
+   * @param xs
+   * @return
+   */
+  def variance(xs: Seq[Double]): Option[Double] =
+    mean(xs) flatMap (m => mean(xs.map(x => math.pow(x - m, 2))))
+
 
 }
