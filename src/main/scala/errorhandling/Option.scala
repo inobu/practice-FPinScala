@@ -72,4 +72,31 @@ object Option {
   def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
     a.flatMap(aOp => b.map(bOp => f(aOp, bOp)))
   }
+
+  /**
+   * 答え見た
+   * @param a
+   * @tparam A
+   * @return
+   */
+  def sequence[A](a: List[Option[A]]): Option[List[A]] =
+    a match {
+      case Nil => Some(Nil)
+      case h :: t => h flatMap (hh => sequence(t) map (hh :: _))
+    }
+
+  /**
+   * 答え見た
+   * @param a
+   * @param f
+   * @tparam A
+   * @tparam B
+   * @return
+   */
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
+    a match {
+      case Nil => Some(Nil)
+      case h :: t => map2(f(h), traverse(t)(f))(_ :: _)
+    }
+
 }
