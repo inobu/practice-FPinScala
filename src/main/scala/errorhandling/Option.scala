@@ -75,6 +75,7 @@ object Option {
 
   /**
    * 答え見た
+   *
    * @param a
    * @tparam A
    * @return
@@ -87,6 +88,7 @@ object Option {
 
   /**
    * 答え見た
+   *
    * @param a
    * @param f
    * @tparam A
@@ -98,5 +100,15 @@ object Option {
       case Nil => Some(Nil)
       case h :: t => map2(f(h), traverse(t)(f))(_ :: _)
     }
+
+  def traverse2[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
+    a.foldRight[Option[List[B]]](Some(Nil))((h, t) => map2(f(h), t)(_ :: _))
+
+  def map2_1[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
+    for {
+      aa <- a
+      bb <- b
+    } yield f(aa, bb)
+  }
 
 }
