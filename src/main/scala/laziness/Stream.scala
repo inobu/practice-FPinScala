@@ -1,6 +1,11 @@
 package laziness
 
-trait Stream[+A]
+trait Stream[+A] {
+  def toList: List[A] = this match {
+    case Cons(h,t) => h() :: t().toList
+    case _ => List()
+  }
+}
 
 case object Empty extends Stream[Nothing]
 
