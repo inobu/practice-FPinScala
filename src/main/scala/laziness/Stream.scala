@@ -41,6 +41,11 @@ trait Stream[+A] {
 
   def existsViaFold(p: A => Boolean): Boolean =
     foldRight(false)((a, b) => p(a) || b)
+
+  def folAll(p: A => Boolean) : Boolean = this match {
+    case Cons(h, t) => !p(h()) && !t().folAll(p)
+    case Cons(_, _) => true
+  }
 }
 
 case object Empty extends Stream[Nothing]
