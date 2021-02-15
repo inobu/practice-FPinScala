@@ -23,22 +23,24 @@ trait Stream[+A] {
   }
 
   def takeWhile(p: A => Boolean): Stream[A] = this match {
-    case Cons(h,t) if p(h()) => cons(h(), t().takeWhile(p))
+    case Cons(h, t) if p(h()) => cons(h(), t().takeWhile(p))
     case _ => this
   }
 
   def exists(p: A => Boolean): Boolean = this match {
-    case Cons(h,_) if p(h()) => p(h())
+    case Cons(h, _) if p(h()) => p(h())
     case Cons(_, t) => t().exists(p)
     case Cons(_, _) => false
   }
 
-  def foldRight[B](z: => B)(f: (A, => B) => B) :B =
+  def foldRight[B](z: => B)(f: (A, => B) => B): B =
     this match {
       case Cons(h, t) => f(h(), t().foldRight(z)(f))
       case _ => z
     }
 
+  def existsViaFold(p: A => Boolean): Boolean =
+    foldRight(false)((a, b) => p(a) || b)
 }
 
 case object Empty extends Stream[Nothing]
