@@ -27,6 +27,12 @@ trait Stream[+A] {
     case _ => this
   }
 
+  def exists(p: A => Boolean): Boolean = this match {
+    case Cons(h,_) if p(h()) => p(h())
+    case Cons(_, t) => t().exists(p)
+    case Cons(_, _) => false
+  }
+
 }
 
 case object Empty extends Stream[Nothing]
