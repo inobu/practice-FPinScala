@@ -53,13 +53,21 @@ trait Stream[+A] {
   def takeWhileViaFoldRight(p: A => Boolean): Stream[A] =
     foldRight(empty[A])((a, b) => if (p(a)) cons(a, b) else empty)
 
-//  def headOptionViaFoldRight()
+  //  def headOptionViaFoldRight()
 
   def map[B](f: A => B): Stream[B] =
     foldRight(empty[B])((a, b) => cons(f(a), b))
 
   def filter(f: A => Boolean): Stream[A] =
-    foldRight(empty[A])((a, b) => if(f(a)) cons(a, b) else b)
+    foldRight(empty[A])((a, b) => if (f(a)) cons(a, b) else b)
+
+  //間違い
+  def append(f: => Stream[A]): Stream[A] =
+    foldRight(f)((a, b) => b.append(apply(a)))
+
+  //正解
+  def append_valid(f: => Stream[A]): Stream[A] =
+    foldRight(f)((a, b) => cons(a, b))
 }
 
 case object Empty extends Stream[Nothing]
