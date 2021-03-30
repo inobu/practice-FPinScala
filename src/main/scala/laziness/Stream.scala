@@ -87,6 +87,12 @@ trait Stream[+A] {
     }
     go(0, 1)
   }
+
+  //TODO わからん
+  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+    case Some((h,s)) => cons(h, unfold(s)(f))
+    case None => empty
+  }
 }
 
 case object Empty extends Stream[Nothing]
