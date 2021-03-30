@@ -93,6 +93,13 @@ trait Stream[+A] {
     case Some((h,s)) => cons(h, unfold(s)(f))
     case None => empty
   }
+
+  def mapViaFibs(): Stream[Int] = {
+    val func : ((Int, Int)) => Option[(Int, (Int, Int))] = { case (a,b) =>
+      Some(a, (b, a + b))
+    }
+    unfold((0,1))(func)
+  }
 }
 
 case object Empty extends Stream[Nothing]
