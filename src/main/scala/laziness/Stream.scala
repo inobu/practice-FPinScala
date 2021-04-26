@@ -85,20 +85,28 @@ trait Stream[+A] {
     def go(f0: Int, f1: Int): Stream[Int] = {
       cons(f0, go(f1, f0 + f1))
     }
+
     go(0, 1)
   }
 
   //TODO わからん
   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
-    case Some((h,s)) => cons(h, unfold(s)(f))
+    case Some((h, s)) => cons(h, unfold(s)(f))
     case None => empty
   }
 
   def fibsViaUnfold(): Stream[Int] = {
-    val func : ((Int, Int)) => Option[(Int, (Int, Int))] = { case (a,b) =>
-      Some(a, (b, a + b))
+    val func: ((Int, Int)) => Option[(Int, (Int, Int))] = {
+      case (a, b) =>
+        Some(a, (b, a + b))
     }
-    unfold((0,1))(func)
+    unfold((0, 1))(func)
+  }
+
+  def fromViaUnfold(n: Int): Stream[Int] = {
+    val func: Int => Option[(Int, Int)] = a =>
+      Some(a, a + 1)
+    unfold(n)(func)
   }
 }
 
