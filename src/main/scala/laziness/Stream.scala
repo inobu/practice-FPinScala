@@ -117,6 +117,11 @@ trait Stream[+A] {
 
   def onesViaUnfold(): Stream[Int] =
     unfold(1)(n => Some(1, 1))
+
+  def mapViaUnfold[B](f: A => B): Stream[B] = unfold(this) {
+    case Cons(h, t) => Some((f(h()),t()))
+    case _ => None
+  }
 }
 
 case object Empty extends Stream[Nothing]
