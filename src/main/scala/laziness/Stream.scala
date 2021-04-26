@@ -114,6 +114,9 @@ trait Stream[+A] {
       Some(n, n)
     unfold(a)(func)
   }
+
+  def onesViaUnfold(): Stream[Int] =
+    unfold(1)(n => Some(1, 1))
 }
 
 case object Empty extends Stream[Nothing]
