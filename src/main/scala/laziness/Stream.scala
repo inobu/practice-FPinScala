@@ -119,7 +119,13 @@ trait Stream[+A] {
     unfold(1)(n => Some(1, 1))
 
   def mapViaUnfold[B](f: A => B): Stream[B] = unfold(this) {
-    case Cons(h, t) => Some((f(h()),t()))
+    case Cons(h, t) => Some((f(h()), t()))
+    case _ => None
+  }
+
+  def takeViaUnfold(n: Int): Stream[A] = unfold((this, n)) {
+    case (Cons(h, _), 1) => Some(h(), (empty, 0))
+    case (Cons(h, t), i) if i > 1 => Some(h(), (t(), i - 1))
     case _ => None
   }
 }
