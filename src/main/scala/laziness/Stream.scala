@@ -108,6 +108,12 @@ trait Stream[+A] {
       Some(a, a + 1)
     unfold(n)(func)
   }
+
+  def constantViaUnfold[A](a: A): Stream[A] = {
+    val func: A => Option[(A, A)] = n =>
+      Some(n, n)
+    unfold(a)(func)
+  }
 }
 
 case object Empty extends Stream[Nothing]
