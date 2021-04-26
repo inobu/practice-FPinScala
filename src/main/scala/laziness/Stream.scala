@@ -94,7 +94,7 @@ trait Stream[+A] {
     case None => empty
   }
 
-  def mapViaFibs(): Stream[Int] = {
+  def fibsViaUnfold(): Stream[Int] = {
     val func : ((Int, Int)) => Option[(Int, (Int, Int))] = { case (a,b) =>
       Some(a, (b, a + b))
     }
