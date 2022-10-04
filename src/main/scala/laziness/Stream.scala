@@ -62,11 +62,11 @@ trait Stream[+A] {
     foldRight(empty[A])((a, b) => if (f(a)) cons(a, b) else b)
 
   //間違い
-  def append(f: => Stream[A]): Stream[A] =
+  def append[A2>:A](f: => Stream[A2]): Stream[A2] =
     foldRight(f)((a, b) => b.append(apply(a)))
 
   //正解
-  def append_valid(f: => Stream[A]): Stream[A] =
+  def append_valid[A2>:A](f: => Stream[A2]): Stream[A2] =
     foldRight(f)((a, b) => cons(a, b))
 
   def flatMap[B](f: A => Stream[B]): Stream[B] =
