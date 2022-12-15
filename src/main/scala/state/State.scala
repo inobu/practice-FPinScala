@@ -23,4 +23,10 @@ object SimpleRNG {
     val (n, nextRNG) = nonNegativeInt(rng)
     (n / (Int.MaxValue.toDouble + 1), nextRNG)
   }
+
+  def intDouble(rng :RNG): ((Int, Double), RNG) = {
+    val (n, r1) = rng.nextInt
+    val (d, r2) = double(r1)
+    ((n, d), r2)
+  }
 }
