@@ -1,9 +1,9 @@
 package datastructures
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 
-class TreeTest extends FunSuite {
+class TreeTest extends AnyFunSuite {
   test("foldTest") {
   }
 }

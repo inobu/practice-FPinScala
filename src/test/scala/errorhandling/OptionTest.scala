@@ -1,8 +1,8 @@
 package errorhandling
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class OptionTest extends FunSuite {
+class OptionTest extends AnyFunSuite {
   test("fallingFn") {
     assertThrows[Exception] {
       Option.fallingFn(1)

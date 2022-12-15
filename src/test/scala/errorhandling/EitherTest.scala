@@ -1,18 +1,14 @@
 package errorhandling
 
-import org.scalatest.FunSuite
+import errorhandling.Either.Try
+import org.scalatest.funsuite.AnyFunSuite
 
 
-class EitherTest extends FunSuite {
-  val e = Left[Exception](new Exception())
-  val valuea = Right[String]("a")
-  val valueb = Right[String]("b")
-  val a = List(e)
+class EitherTest extends AnyFunSuite {
+  val exception = new Exception("test exception")
 
 
   test("sequenceTest") {
-    assertResult(Left(new Exception())) (Either.sequence(a))
-//    assertResult(1 )(1)
-
+    assertResult(Either.sequence(List(Try(throw exception)))) (Left(exception))
   }
 }
