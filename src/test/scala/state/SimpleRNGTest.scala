@@ -1,7 +1,7 @@
 package state
 
 import org.scalatest.funsuite.AnyFunSuite
-import state.SimpleRNG.nonNegativeInt
+import state.SimpleRNG.{double, nonNegativeInt}
 
 class SimpleRNGTest extends AnyFunSuite {
   test("nextIntTest") {
@@ -22,5 +22,17 @@ class SimpleRNGTest extends AnyFunSuite {
     assert(n1 === 16159453)
     assert(n2 === 1281479696)
     assert(n3 === 340305901)
+  }
+
+  test("double") {
+    val rng = SimpleRNG(42)
+    val (d1, rng2) = double(rng)
+    val (d2, rng3) = double(rng2)
+    val (d3, _) = double(rng3)
+
+    val denominator = Int.MaxValue.toDouble + 1
+    assert(d1 === 16159453 /  denominator)
+    assert(d2 === 1281479696 / denominator)
+    assert(d3 === 340305901 / denominator)
   }
 }
