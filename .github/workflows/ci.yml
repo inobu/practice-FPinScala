@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+      - name: Setup JDK
+        uses: actions/setup-java@1df8dbefe2a8cbc99770194893dd902763bee34b # v3.9.0
+        with:
+          distribution: 'corretto'
+          java-version: '11'
+          cache: 'sbt'
+      - name: Build and Test
+        run: sbt -v +test
+
+
